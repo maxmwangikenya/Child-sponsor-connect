@@ -1,0 +1,26 @@
+{
+  "name": "child-sponsor-connect",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxmwangikenya/Child-sponsor-connect.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maxmwangikenya/Child-sponsor-connect/issues"
+  },
+  "homepage": "https://github.com/maxmwangikenya/Child-sponsor-connect#readme",
+  "description": "",
+  "dependencies": {
+    "and": "^0.0.3",
+    "express": "^5.1.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.14.1",
+    "save": "^2.9.0"
+  }
+}
