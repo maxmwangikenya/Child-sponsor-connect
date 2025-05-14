@@ -22,12 +22,7 @@ const app = express();
 
 // Security middleware
 app.use(helmet());
-app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-  methods: ['GET', 'POST', 'PUT', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-}));
+app.use(cors());
 app.use(express.json());
 
 // Rate limiting
@@ -37,12 +32,12 @@ const apiLimiter = rateLimit({
 });
 app.use('/api/', apiLimiter);
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const client = new OAuth2Client(process.env.oauth);
 
 // Admin emails from environment variables
 const ADMIN_EMAILS = process.env.ADMIN_EMAILS ? 
   process.env.ADMIN_EMAILS.split(',') : 
-  ['admin@baobabschool.com'];
+  ['itsthindi@gmail.com'];
 
 // Enhanced Google Auth Endpoint
 app.post('/api/auth/google', async (req, res) => {
@@ -153,7 +148,7 @@ app.get('/admin/sponsors', isAdmin, async (req, res) => {
   }
 });
 
-app.get('/admin/family-members', isAdmin, async (req, res) => {
+app.get('/admin/family-members', async (req, res) => {
   try {
     const [results] = await pool.execute(`
       SELECT fm.*, 
@@ -255,7 +250,7 @@ app.get('/api/protected', authenticateToken, (req, res) => {
 });
 
 // Sponsor endpoints
-app.post('/api/sponsors', authenticateToken, async (req, res) => {
+app.post('/api/sponsors', async (req, res) => {
   const { name, email, description } = req.body;
   try {
     const [result] = await pool.execute(
@@ -269,13 +264,10 @@ app.post('/api/sponsors', authenticateToken, async (req, res) => {
 });
 
 // Family member endpoints
-app.post('/api/family-members', authenticateToken, async (req, res) => {
+app.post('/family-members', async (req, res) => {
   const { sponsor_id, name, email, date_of_birth } = req.body;
+  console.log(sponsor_id, name, email, date_of_birth)
   
-  // Verify the sponsor_id matches the logged-in user
-  if (req.user.sponsorId != sponsor_id && !req.user.isAdmin) {
-    return res.status(403).json({ error: 'Not authorized to add family members for this sponsor' });
-  }
 
   try {
     const [result] = await pool.execute(
