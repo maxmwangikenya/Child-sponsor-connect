@@ -9,10 +9,10 @@ const helmet = require('helmet');
 
 // Create connection pool (better than single connection)
 const pool = mysql.createPool({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '32662272',
-  database: process.env.DB_NAME || 'child_sponsor_connect1',
+  host: process.env.hostname || 'localhost',
+  user: process.env.username || 'root',
+  password: process.env.password || '32662272',
+  database: process.env.dbname || 'child_sponsor_connect1',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
@@ -37,7 +37,7 @@ const client = new OAuth2Client(process.env.oauth);
 // Admin emails from environment variables
 const ADMIN_EMAILS = process.env.ADMIN_EMAILS ? 
   process.env.ADMIN_EMAILS.split(',') : 
-  ['itsthindi@gmail.com'];
+  ['maxmwangikenya@gmail.com'];
 
 // Enhanced Google Auth Endpoint
 app.post('/api/auth/google', async (req, res) => {
