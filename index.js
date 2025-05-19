@@ -30,7 +30,7 @@ const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100
 });
-app.use('/api/', apiLimiter);
+// app.use('/api/', apiLimiter);
 
 const client = new OAuth2Client(process.env.oauth);
 
