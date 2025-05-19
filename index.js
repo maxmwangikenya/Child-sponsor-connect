@@ -128,6 +128,9 @@ function isAdmin(req, res, next) {
     next();
   });
 }
+app.get('/', (req, res)=>{
+  res.send('hello world')
+});
 
 // Admin Dashboard Endpoints
 app.get('/admin/sponsors', isAdmin, async (req, res) => {
