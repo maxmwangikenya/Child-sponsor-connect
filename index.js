@@ -6,17 +6,11 @@ const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
+const fs = require('fs');
+const pool = require('./db.js')
 
-// Create connection pool (better than single connection)
-const pool = mysql.createPool({
-  host: process.env.hostname || 'localhost',
-  user: process.env.username || 'root',
-  password: process.env.password || '32662272',
-  database: process.env.dbname || 'child_sponsor_connect1',
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
-});
+
+
 
 const app = express();
 
@@ -305,7 +299,17 @@ app.use((err, req, res, next) => {
 
 // Start server
 const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Admin emails: ${ADMIN_EMAILS.join(', ')}`);
+
+
+  //show when db is connected
+// try {
+//     const connection = await mysql.createPool(dbUri)
+//     console.log('Connected to the database');
+//     // connection.release(); // Always release after using
+//   } catch (err) {
+//     console.error('Database connection error:', err);
+//   }
 });
